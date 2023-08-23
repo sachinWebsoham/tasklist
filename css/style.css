@@ -1,0 +1,108 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    font-size: 20px;
+    color: rgb(8, 8, 8);
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Caveat', cursive;
+}
+
+body {
+    background: url('../image/pexels-nathalie-payares-4929994.jpg') center fixed;
+    background-size: cover;
+}
+
+.todo {
+    width: 500px;
+    margin: 70px auto;
+}
+
+.todo p {
+    color: white;
+    font-size: 65px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.input_todo input {
+    height: auto;
+    font-size: 28px;
+    padding: 8px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    width: 78%;
+}
+
+.input_todo input::placeholder {
+    color: rgba(92, 50, 7, 0.704);
+}
+
+.input_todo {
+    background: rgba(246, 187, 92, 0.77);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.463);
+    box-shadow: inset 0px 0px 8px 1px  rgba(101, 72, 6, 0.985);
+    
+}
+
+.input_todo i {
+    padding-left: 15px;
+    font-size: 22px;
+    padding-right: 10px;
+    padding-top: 22px;
+    color: rgba(0, 0, 0, 0.525);
+}
+.downKey {
+    opacity: 0;
+    
+}
+
+.list {
+    background: rgba(246, 187, 92, 0.799);
+}
+.check {
+    width: 35px;
+    height: 35px;
+    padding: 3px 8px;
+    border: 1px solid rgb(73, 73, 73);
+}
+.check i {
+    display: none;
+}
+
+.close {
+    padding: 3px 8px;
+    opacity: 0;
+
+}
+
+.inner_text {
+    font-size: 25px;
+    margin-left: 15px;
+    color: rgb(250, 211, 137);
+    width: 82%;
+    /* font-weight: bold; */
+}
+.filter {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.463);
+}
+.filter span, .filter div {
+    font-size: 16px;
+}
+.item:hover .close {
+    opacity: 1 ;
+    cursor: pointer;
+}
+.item { 
+    background:linear-gradient(to right , rgba(198, 103, 15, 0.818) , rgba(77, 56, 7, 0.813) );
+    
+}
+.main {
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgb(64, 37, 10);
+}
