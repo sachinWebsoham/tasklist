@@ -113,7 +113,9 @@ listData.addEventListener('click', (e) => {
         }
         fetch(`${url}/${Id}`, {method:'PATCH',headers:{'Content-type':'application/JSON'},body: JSON.stringify({status:status_change})})
             .then(res => res.json())
-            .then(() => location.reload())
+            // .then(() => location.reload())
+            .then(data => remainItems(data))
+
 
     }
 
