@@ -4,17 +4,18 @@ const list_input = document.getElementById('todoInput');
 const remaining = document.getElementById('remain');
 const completed = document.getElementById('completed')
 
+const url = "http://localhost:5555/api/list";
 
 
 let output = '';
 const renderItems = (lists) => {
     lists.forEach(list => {
         output += `
-        <input type="hidden" id="list_status" value="${list.status}">
+        
         <div id="items" data-id=${list._id} class="item d-flex justify-content-between px-2 py-2">
-        <div id="checked"  class="check rounded-circle"> <i class="fa-solid fa-check  " id="after_update" style="color: #24f915;"></i> </div>
-        <div class="inner_text" id="${list._id}"> ${list.list}</div> 
-        <div data-id=${list._id} class="close   rounded-circle"><i id="closed" class="fa-solid fa-xmark text-danger"></i> </div>
+        <div onclick="check('${list._id}','${list.status}')" class="check rounded-circle ${list.status} "> <i  class="fa-solid fa-check  " id="after_update" style="color: #24f915;"></i> </div>
+        <div class="inner_text ${list.status}List" id="${list._id}"> ${list.list}</div> 
+        <div onclick="remove('${list._id}')" class="close   rounded-circle"><i id="closed" class="fa-solid fa-xmark text-danger"></i> </div>
         </div>
         `;
     } );
@@ -40,8 +41,6 @@ const renderItems = (lists) => {
       console.log(count[0],count[1])
       
       document.querySelector('.incomplete_task').innerHTML = `${count[0]} Task Left`;
-      document.getElementById('complete').innerHTML = `Clear completed [${count[1]}]`;
-    //   document.getElementById(Id).style.textDecoration = 'line-through';
 
 
 }
@@ -51,11 +50,11 @@ const remainItems = (lists) => {
     lists.forEach(list => {
         if (list.status === 'active') {
             output += `
-            <input type="hidden" id="list_status" value="${list.status}">
+            
             <div id="items" data-id=${list._id} class="item d-flex justify-content-between px-2 py-2">
-                <div id="checked" class="check rounded-circle"> <i class="fa-solid fa-check" id="after_update" style="color: #24f915;"></i> </div>
-                <div class="inner_text" id="${list._id}"> ${list.list}</div>  
-                <div data-id=${list._id} class="close rounded-circle"><i id="closed" class="fa-solid fa-xmark text-danger"></i> </div>
+                <div onclick="check('${list._id}','${list.status}')" class="check rounded-circle ${list.status}"> <i  class="fa-solid fa-check" id="after_update" style="color: #24f915;"></i> </div>
+                <div class="inner_text ${list.status}List" id="${list._id}"> ${list.list}</div>  
+                <div onclick="remove('${list._id}')" class="close rounded-circle"><i id="closed" class="fa-solid fa-xmark text-danger"></i> </div>
             </div>
             `;
         }
@@ -68,11 +67,11 @@ const comItems = (lists) => {
     lists.forEach(list => {
         if (list.status === 'inactive') {
             output += `
-            <input type="hidden" id="list_status" value="${list.status}">
+            
             <div id="items" data-id=${list._id} class="item d-flex justify-content-between px-2 py-2">
-                <div id="checked" class="check rounded-circle"> <i class="fa-solid fa-check" id="after_update" style="color: #24f915;"></i> </div>
-                <div class="inner_text" id="${list._id}"> ${list.list}</div>  
-                <div data-id=${list._id} class="close rounded-circle"><i id="closed" class="fa-solid fa-xmark text-danger"></i> </div>
+                <div onclick="check('${list._id}','${list.status}')" class="check rounded-circle ${list.status}"> <i  class="fa-solid fa-check"  id="after_update" style="color: #24f915;"></i> </div>
+                <div class="inner_text ${list.status}List" id="${list._id}"> ${list.list}</div>  
+                <div onclick="remove('${list._id}')" class="close rounded-circle"><i id="closed" class="fa-solid fa-xmark text-danger"></i> </div>
             </div>
             `;
         }
@@ -81,8 +80,22 @@ const comItems = (lists) => {
     listData.innerHTML = output;
 }
 
+// update status
 
-const url = "http://localhost:5555/api/list";
+const check = (Idd,todo_status) =>{
+    // 
+    let status_change;
+    if(todo_status == 'active') {
+         status_change = 'inactive'
+    } else if(todo_status == 'inactive') {
+         status_change = 'active';
+    }
+    fetch(`${url}/${Idd}`, {method:'PATCH',headers:{'Content-type':'application/JSON'},body: JSON.stringify({status:status_change})})
+            .then(res => res.json())
+            .then(() => location.reload())
+}
+
+
 
 
 // read all data from api 
@@ -91,46 +104,17 @@ fetch(url)
     .then(res => res.json())
     .then(data => renderItems(data));
 
-listData.addEventListener('click', (e) => {
-    e.preventDefault();
-    let deletebutton = e.target.id == 'closed';
-    let statusbutton = e.target.id == 'checked';
-
-    let Id = e.target.parentElement.dataset.id;
-
-
-// update status 
-// method = patch
-    if(statusbutton) {
-        let status_btn = document.getElementById('list_status').value;
-        if(status_btn == 'active') {
-            document.getElementById(Id).style.textDecoration = 'line-through';
-            var status_change = 'inactive'
-        } else {
-            document.getElementById(Id).style.textDecoration = 'none';
-            var status_change = 'active';
-
-        }
-        fetch(`${url}/${Id}`, {method:'PATCH',headers:{'Content-type':'application/JSON'},body: JSON.stringify({status:status_change})})
-            .then(res => res.json())
-            // .then(() => location.reload())
-            .then(data => remainItems(data))
-
-
-    }
-
 
 // delete from data by id
 // method = DELETE
-
-    if(deletebutton) {
-        fetch(`${url}/${Id}`, {
+const remove = (id) => {
+        fetch(`${url}/${id}`, {
             method:'DELETE'
         } )
          .then(res => res.json())
          .then(()=> location.reload())
-    }   
-})
+      
+}
 
 // create data in api
 // method = POST
@@ -155,11 +139,7 @@ form_list.addEventListener('submit', (e) => {
         console.log(listArr)
     })
     .then(()=> location.reload())
-
-
     list_input.value = ''
-    
-
 })
 
 // show remaining data

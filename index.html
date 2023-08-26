@@ -14,17 +14,17 @@
 </head>
 
 <body>
-    <main>
+    <main id="main">
         <div class="todo">
             <p> To Do List  </p>
             <div class="main">
                 <form class="form_list">
                     <div class="input_todo d-flex">
                         <i class="fa-solid fa-angle-down downKey "></i>
-                        <input type="text" name="ToDo" id="todoInput" onsubmit="empty()"  placeholder="What needs to be done ?" autofocus >
+                        <input type="text" name="ToDo" id="todoInput" onsubmit="empty()" required  placeholder="What needs to be done ?" autofocus >
                     </div>
                 </form>
-                    <div id="lists" class="list">
+                    <div id="lists" class="list" >
                         <div class="filter d-flex px-2 py-1 justify-content-between">
                             <div class="fw-bold mt-1 incomplete_task"> 0 task left</div>
                             <div>

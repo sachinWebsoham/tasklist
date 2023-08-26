@@ -20,7 +20,7 @@ body {
 
 .todo {
     width: 500px;
-    margin: 70px auto;
+    margin: 50px auto;
 }
 
 .todo p {
@@ -72,7 +72,13 @@ body {
     border: 1px solid rgb(73, 73, 73);
 }
 .check i {
-    display: none;
+    opacity: 0;
+}
+.inactive i {
+    opacity: 1;
+}
+.active i {
+    opacity: 0;
 }
 
 .close {
@@ -106,3 +112,34 @@ body {
     border-radius: 10px;
     box-shadow: 0px 0px 20px rgb(64, 37, 10);
 }
+
+.activeList {
+    text-decoration: none;
+}
+.inactiveList {
+    text-decoration: line-through;
+}
+.listItem {
+    max-height: 300px;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 3px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(129, 87, 20); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background:rgb(64, 37, 10); 
+  }
